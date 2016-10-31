@@ -1,4 +1,4 @@
-import java.util.Dictionary;
+import java.util.*;
 
 public class Person
 {
@@ -11,15 +11,15 @@ public class Person
 	String nikename, fullname;
 	Sex gender, wanted;
 	String phone, email, wechat;
-	String matching;
+	String matchtext;
 	
 	// matching information
 	Person[] ranking;
 	int next = 0;
-	boolean single;
-	double coupleScore;
-	Person partner;
-	Dictionary<Person, Double> scores;
+	boolean single = true;
+	double coupleScore = 0;
+	Person partner= null;
+	HashMap<Person, Double> scores;
 	
 	public void loves(Person other, double score)
 	{
