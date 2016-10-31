@@ -2,6 +2,11 @@ import java.util.Dictionary;
 
 public class Person
 {
+	public enum Sex
+	{
+		Male, Female;
+	}
+	
 	// general information
 	String nikename, fullname;
 	Sex gender, wanted;
