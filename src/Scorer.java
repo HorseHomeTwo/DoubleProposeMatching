@@ -35,8 +35,8 @@ public class Scorer
 	
 	public static double evaluate(String evaluator, String candidate)
 	{
-		evaluator = evaluator.replaceAll("[`~!@#$%^&*()_+-={};':|]<>?/.,","");
-		candidate = candidate.replaceAll("[`~!@#$%^&*()_+-={};':|]<>?/.,","");
+		evaluator = evaluator.replaceAll("[`~!@#$%^&*()_+-={};':|<>?/.,]","");
+		candidate = candidate.replaceAll("[`~!@#$%^&*()_+-={};':|<>?/.,]","");
 		System.out.println("Evaluator: " + evaluator);
 		System.out.println("Candidate: " + candidate);
 		double score = 0;
