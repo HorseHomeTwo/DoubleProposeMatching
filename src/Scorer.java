@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Scoring
+public class Scorer
 {
 	public static void scoring(Person[] people)
 	{

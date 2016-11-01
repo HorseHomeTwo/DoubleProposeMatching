@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Match
+public class Matcher
 {
 	public static void match(PriorityQueue<Person> single)
 	{
