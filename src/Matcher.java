@@ -27,6 +27,7 @@ public class Matcher
 			}
 			else if (coupleScore > receiver.coupleScore)
 			{
+				System.out.println(receiver.partner.fullname + " Got Ditched");
 				receiver.partner.getDitched();
 				single.add(receiver.partner);
 				proposer.loves(receiver, coupleScore);

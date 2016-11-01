@@ -3,6 +3,7 @@ import java.util.*;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.poifs.filesystem.*;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
 
 public class Parser
 {
@@ -26,10 +27,10 @@ public class Parser
 			//int ROWSNO = excel.getPhysicalNumberOfRows();
 			//System.out.println("* This File Has " + ROWSNO + " Rows *");
 			
-			for (int i = 0; i < ROWSNO; i++)
+			for (int i = 1; i < ROWSNO; i++)
 			{
 				row = excel.getRow(i);
-				if (row != null && row.getCell(0) != null)
+				if (row != null && row.getCell(0) != null && row.getCell(0).getNumericCellValue() != 0)
 				{
 					System.out.println("parsing line " + i);
 					Person person = new Person();
@@ -44,19 +45,29 @@ public class Parser
 					else
 						person.wanted = Person.Sex.Female;
 					
-					person.fullname = row.getCell(4).getStringCellValue();
+					if (row.getCell(4) == null)
+						person.fullname = "PersonAtRow" + i;
+					else
+						person.fullname = row.getCell(4).getStringCellValue();
 					person.nikename = row.getCell(1).getStringCellValue();
 					
 					(row.getCell(5)).setCellType(Cell.CELL_TYPE_STRING);
-					(row.getCell(7)).setCellType(Cell.CELL_TYPE_STRING);
 					
-					person.phone = row.getCell(5).getStringCellValue();
-					person.email = row.getCell(6).getStringCellValue();
-					person.wechat = row.getCell(7).getStringCellValue();
+					if (row.getCell(7) == null)
+						person.wechat = "N/A";
+					else
+					{
+						(row.getCell(7)).setCellType(Cell.CELL_TYPE_STRING);
+						person.wechat = row.getCell(7).getStringCellValue();
+					}
 					
-					person.matchtext = row.getCell(8).getStringCellValue() +
-									   row.getCell(9).getStringCellValue() +
-									   row.getCell(11).getStringCellValue();
+					person.phone = row.getCell(5,Row.CREATE_NULL_AS_BLANK).getStringCellValue();
+					person.email = row.getCell(6,Row.CREATE_NULL_AS_BLANK).getStringCellValue();
+					
+					
+					person.matchtext = row.getCell(8,Row.CREATE_NULL_AS_BLANK).getStringCellValue() +
+									   row.getCell(9,Row.CREATE_NULL_AS_BLANK).getStringCellValue() +
+									   row.getCell(11,Row.CREATE_NULL_AS_BLANK).getStringCellValue();
 					System.out.println("Adding Person => " + person.fullname);
 					people.add(person);
 				}
