@@ -22,11 +22,13 @@ public class Matcher
 			{
 				proposer.loves(receiver, coupleScore);
 				receiver.loves(proposer, coupleScore);
+				single.remove(receiver);
 				System.out.println(proposer.fullname + " <3 " + receiver.fullname);
 			}
 			else if (coupleScore > receiver.coupleScore)
 			{
 				receiver.partner.getDitched();
+				single.add(receiver.partner);
 				proposer.loves(receiver, coupleScore);
 				receiver.loves(proposer, coupleScore);
 				System.out.println(proposer.fullname + " <3 " + receiver.fullname);
@@ -39,4 +41,21 @@ public class Matcher
 		}
 		System.out.println("***** Done Matching *****");
 	}
+	
+	public static Comparator<Person> desireCompare = new Comparator<Person>()
+	{
+		public int compare(Person p1, Person p2)
+		{
+			double p1desire, p2desire;
+			if (p1.next >= p1.ranking.length)
+				p1desire = -1;
+			else
+				p1desire = p1.scores.get(p1.ranking[p1.next]);
+			if (p2.next >= p2.ranking.length)
+				p2desire = -1;
+			else
+				p2desire = p2.scores.get(p2.ranking[p2.next]);
+			return (int)Math.round(p2desire - p1desire);
+		}
+	};
 }

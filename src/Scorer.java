@@ -9,7 +9,7 @@ public class Scorer
 		{
 			Person current = people[i];
 			current.scores = new HashMap<Person, Double>();
-			System.out.println("@" + current.fullname + " score others");
+			System.out.println("@@@ " + current.fullname + " score others");
 			
 			for (int j = 0; j < people.length; j++)
 			{
@@ -26,19 +26,22 @@ public class Scorer
 					
 			}
 			
-			System.out.println("@" + current.fullname + " start ranking");
-			current.ranking = (Person[])current.scores.keySet().toArray();
+			System.out.println("@@@ " + current.fullname + " begin ranking");
+			Set<Person> keyset = current.scores.keySet();
+			current.ranking = keyset.toArray(new Person[keyset.size()]);
 			ranker = current;
 			Arrays.sort(current.ranking, rankCompare);
+			System.out.println("Ranking: ");
+			Person.printArray(current.ranking);
 		}
+		System.out.println("***** Finish Scoring *****");
 	}
 	
 	public static double evaluate(String evaluator, String candidate)
 	{
-		evaluator = evaluator.replaceAll("[`~!@#$%^&*()_+-={};':|<>?/.,]","");
-		candidate = candidate.replaceAll("[`~!@#$%^&*()_+-={};':|<>?/.,]","");
-		System.out.println("Evaluator: " + evaluator);
-		System.out.println("Candidate: " + candidate);
+		evaluator = evaluator.replaceAll("[`~!@#$%^&*()_+={};':|<>?/.,£¬¡££¡£¿]","");
+		candidate = candidate.replaceAll("[`~!@#$%^&*()_+={};':|<>?/.,£¬¡££¡£¿]","");
+		System.out.println("Evaluator: " + evaluator + ", Candidate: " + candidate);
 		double score = 0;
 		for (int i = 0; i < evaluator.length(); i++)
 		{
@@ -59,7 +62,7 @@ public class Scorer
 		{
 			double p1score = ranker.scores.get(p1);
 			double p2score = ranker.scores.get(p2);
-			return (int)Math.round(p1score - p2score);
+			return (int)Math.round(p2score - p1score);
 		}
 	};
 }

@@ -2,59 +2,70 @@ import java.io.*;
 import java.util.*;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.poifs.filesystem.*;
+import org.apache.poi.ss.usermodel.Cell;
 
 public class Parser
 {
-	public static String filename = "file.xlsx";
+	public static String filename = "file.xls";
 	public static final int COLSNO = 12;
+	public static final int ROWSNO = 300;
 	
-	public static Person[] parse()
+	@SuppressWarnings("deprecation")
+	public static ArrayList<Person> parse()
 	{
+		System.out.println("***** Start Parsing *****");
 		ArrayList<Person> people = new ArrayList<Person>();
 		try {
 			FileInputStream fis = new FileInputStream(filename);
 			POIFSFileSystem pfs = new POIFSFileSystem(fis);
-			HSSFWorkbook xlsx = new HSSFWorkbook(pfs);
-			HSSFSheet excel = xlsx.getSheetAt(0);
+			HSSFWorkbook xls = new HSSFWorkbook(pfs);
+			HSSFSheet excel = xls.getSheetAt(0);
 			HSSFRow row;
+			HSSFCell cell;
 			
-			int ROWSNO = excel.getPhysicalNumberOfRows();
+			//int ROWSNO = excel.getPhysicalNumberOfRows();
+			//System.out.println("* This File Has " + ROWSNO + " Rows *");
 			
 			for (int i = 0; i < ROWSNO; i++)
 			{
 				row = excel.getRow(i);
-				if (row != null)
+				if (row != null && row.getCell(0) != null)
 				{
+					System.out.println("parsing line " + i);
 					Person person = new Person();
 					
-					if (row.getCell(3).getStringCellValue().equals("男生"))
+					if (row.getCell(2).getStringCellValue().equals("男生"))
 						person.gender = Person.Sex.Male;
 					else
 						person.gender = Person.Sex.Female;
 					
-					if (row.getCell(4).getStringCellValue().equals("男生"))
+					if (row.getCell(3).getStringCellValue().equals("男生"))
 						person.wanted = Person.Sex.Male;
 					else
 						person.wanted = Person.Sex.Female;
 					
-					person.fullname = row.getCell(5).getStringCellValue();
-					person.nikename = row.getCell(2).getStringCellValue();
+					person.fullname = row.getCell(4).getStringCellValue();
+					person.nikename = row.getCell(1).getStringCellValue();
 					
-					person.phone = row.getCell(6).getStringCellValue();
-					person.email = row.getCell(7).getStringCellValue();
-					person.wechat = row.getCell(8).getStringCellValue();
+					(row.getCell(5)).setCellType(Cell.CELL_TYPE_STRING);
+					(row.getCell(7)).setCellType(Cell.CELL_TYPE_STRING);
 					
-					person.matchtext = row.getCell(9).getStringCellValue() +
-									   row.getCell(10).getStringCellValue() +
-									   row.getCell(12).getStringCellValue();
+					person.phone = row.getCell(5).getStringCellValue();
+					person.email = row.getCell(6).getStringCellValue();
+					person.wechat = row.getCell(7).getStringCellValue();
 					
+					person.matchtext = row.getCell(8).getStringCellValue() +
+									   row.getCell(9).getStringCellValue() +
+									   row.getCell(11).getStringCellValue();
+					System.out.println("Adding Person => " + person.fullname);
 					people.add(person);
 				}
 			}
-			xlsx.close();
+			xls.close();
 		} catch (Exception ioe) {
 			ioe.printStackTrace();
 		}
-		return null;
+		System.out.println("***** Finish Parsing *****");
+		return people;
 	}
 }
