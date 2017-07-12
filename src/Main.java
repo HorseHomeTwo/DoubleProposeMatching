@@ -23,14 +23,14 @@ public class Main
 				Person person = people.remove(0);
 				if (person.single)
 				{
-					System.out.println(person.fullname + " IsSingle " + person.gender);
+					System.out.println(person.phone + " " + person.email + " IsSingle " + person.gender);
 					continue;
 				}
 				else
 				{
 					Person partner = person.partner;
 					people.remove(partner);
-					System.out.println(person.fullname + " <3 " + partner.fullname);
+					//System.out.println(person.fullname + " <3 " + partner.fullname);
 					
 					writer.println("亲爱的"+person.email+"收件人");
 					writer.println("万能的许愿机已经完成了！现在！");
