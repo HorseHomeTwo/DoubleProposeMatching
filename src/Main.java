@@ -6,8 +6,6 @@ public class Main
 	public static void main(String[] args)
 	{
 		ArrayList<Person> people = Parser.parse();
-		//for (int i = 0; i < people.size(); i++)
-		//	System.out.println(people.get(i));
 		
 		Scorer.scoring(people.toArray(new Person[people.size()]));
 		
@@ -23,41 +21,42 @@ public class Main
 				Person person = people.remove(0);
 				if (person.single)
 				{
-					System.out.println(person.fullname + " IsSingle " + person.gender);
+					System.out.println(person.nickname + " is single " + person.gender);
+					writer.println(person.nickname + "(微信:" + person.wechat + ") 很遗憾没有配对成功");
+					if (!person.wantMatching)
+						writer.println("你选择和你的TA一起参与，但你的暗号无人匹配。 暗号：" + person.secretcode);
+					else
+						writer.println("你所寻找的TA已与他人配对");
+					writer.println("---------------------------------------------------------------------------------------------------");
 					continue;
 				}
 				else
 				{
 					Person partner = person.partner;
 					people.remove(partner);
-					System.out.println(person.fullname + " <3 " + partner.fullname);
+					System.out.println(person.nickname + " <3 " + partner.nickname);
 					
-					writer.println("亲爱的"+person.email+"收件人");
-					writer.println("万能的许愿机已经完成了！现在！");
-					writer.println("万能的许愿机针对你所填写的信息为你找到了有缘人");
-					writer.println( person.nikename+"同学，恭喜你成功与"+partner.nikename+"同学配对。");
-					writer.println("注意：对方非常害羞，所以希望你可以主动一点哟 ^_^");
-
-					writer.println("为了增加配对活动的趣味性，我们只公布以下信息");
-					writer.println("有缘人档案");
-					writer.println("昵称："+partner.nikename);
-					writer.println("电话："+partner.phone);
-					writer.println("邮箱："+partner.email);
 					writer.println();
-					
-					writer.println("亲爱的"+partner.email+"收件人");
-					writer.println("万能的许愿机已经完成了！现在！");
-					writer.println("万能的许愿机针对你所填写的信息为你找到了有缘人");
-					writer.println( partner.nikename+"同学，恭喜你成功与"+person.nikename+"同学配对。");
-					writer.println("注意：对方非常害羞，所以希望你可以主动一点哟 ^_^");
-
-					writer.println("为了增加配对活动的趣味性，我们只公布以下信息");
-					writer.println("有缘人档案");
-					writer.println("昵称："+person.nikename);
-					writer.println("电话："+person.phone);
-					writer.println("邮箱："+person.email);
+					writer.println(person.nickname + " <3 " + partner.nickname);
 					writer.println();
-					
+					writer.println("<<" + person.nickname + ">>");
+					writer.println("wechat: " + person.wechat);
+					writer.println("phone: " + person.phone);
+					writer.println("email: " + person.email);
+					writer.println("message to him/her: " + "嗨" + person.nickname + ", 你已与" + partner.nickname + "(wechat: " + partner.wechat + ")成功配对");
+					writer.println("对方是" + partner.comingToCanada + "来的加拿大。");
+					writer.println("TA的交友宣言是：" + partner.message);
+					writer.println("注意：对方非常害羞，所以希望你可以主动一点哟！");
+					writer.println();
+					writer.println("<<" + partner.nickname + ">>");
+					writer.println("wechat: " + partner.wechat);
+					writer.println("phone: " + partner.phone);
+					writer.println("email: " + partner.email);
+					writer.println("message to him/her: " + "嗨" + partner.nickname + ", 你已与" + person.nickname + "(wechat: " + person.wechat + ")成功配对");
+					writer.println("对方是" + person.comingToCanada + "来的加拿大。");
+					writer.println("TA的交友宣言是：" + person.message);
+					writer.println("注意：对方非常害羞，所以希望你可以主动一点哟！");
+					writer.println("---------------------------------------------------------------------------------------------------");
 				}
 			}
 			writer.close();

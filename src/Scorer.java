@@ -9,7 +9,6 @@ public class Scorer
 		{
 			Person current = people[i];
 			current.scores = new HashMap<Person, Double>();
-			System.out.println("@@@ " + current.fullname + " score others");
 			
 			for (int j = 0; j < people.length; j++)
 			{
@@ -18,21 +17,36 @@ public class Scorer
 					continue;
 				else if (current.wanted != other.gender || other.wanted != current.gender)
 					continue;
+				else if (!current.wantMatching && !other.wantMatching && current.secretcode.equals(other.secretcode))
+				{
+					current.scores.put(other, 101.0);
+				}
+				else if (!current.wantMatching || !other.wantMatching) 
+				{
+					continue;
+				}
 				else
 				{
-					double score = evaluate(current.matchtext, other.matchtext);
+					double hobbyscore = evaluate(current.matchtext, other.matchtext);
+					double agescore = evaluateAge(other.age, current.expectAgeMin, current.expectAgeMax);
+					double score = (hobbyscore + agescore)/2;
 					current.scores.put(other,score);
 				}
 					
 			}
 			
-			System.out.println("@@@ " + current.fullname + " begin ranking");
+			System.out.println("@@@ " + current.nickname + " begin ranking");
 			Set<Person> keyset = current.scores.keySet();
 			current.ranking = keyset.toArray(new Person[keyset.size()]);
 			ranker = current;
 			Arrays.sort(current.ranking, rankCompare);
 			System.out.println("Ranking: ");
-			Person.printArray(current.ranking);
+			for (int k = 0; k < current.ranking.length; k++) {
+				Person p = current.ranking[k];
+				double score = current.scores.get(p);
+				System.out.print(p.nickname + ":" + score + ", ");
+			}
+			System.out.println();
 		}
 		System.out.println("***** Finish Scoring *****");
 	}
@@ -41,7 +55,6 @@ public class Scorer
 	{
 		evaluator = evaluator.replaceAll("[`~!@#$%^&*()_+={};':|<>?/.,£¬¡££¡£¿]","");
 		candidate = candidate.replaceAll("[`~!@#$%^&*()_+={};':|<>?/.,£¬¡££¡£¿]","");
-		System.out.println("Evaluator: " + evaluator + ", Candidate: " + candidate);
 		double score = 0;
 		for (int i = 0; i < evaluator.length(); i++)
 		{
@@ -50,8 +63,15 @@ public class Scorer
 				score += 1.0 / evaluator.length();
 			}
 		}
-		System.out.println("Score: " + score*100);
 		return score *= 100;
+	}
+	
+	public static double evaluateAge(int age, int min, int max)
+	{
+		if (age <= max && age >= min)
+			return 100.0;
+		else
+			return 0.0;
 	}
 	
 	public static Person ranker;

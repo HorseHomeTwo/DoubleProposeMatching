@@ -8,10 +8,14 @@ public class Person
 	}
 	
 	// general information
-	String nikename, fullname;
+	String nickname, comingToCanada;
+	int age, expectAgeMin, expectAgeMax;
 	Sex gender, wanted;
 	String phone, email, wechat;
 	String matchtext;
+	String message;
+	boolean wantMatching;
+	String secretcode;
 	
 	// matching information
 	Person[] ranking;
@@ -37,7 +41,7 @@ public class Person
 	
 	public String toString()
 	{
-		String s = fullname + " : " + nikename + "\n";
+		String s = "nickname : " + nickname + "\n";
 		s += "Gender: " + gender + ", Wants: " + wanted + "\n";
 		s += "Phone: " + phone + ", Email: " + email + ", Wechat: " + wechat + "\n";
 		return s += matchtext;
@@ -48,7 +52,7 @@ public class Person
 		System.out.print("[");
 		for (int i = 0; i < people.length; i++)
 		{
-			System.out.print(people[i].fullname + ", ");
+			System.out.print(people[i].nickname + ", ");
 		}
 		System.out.println("]");
 	}
